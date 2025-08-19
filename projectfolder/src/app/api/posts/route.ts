@@ -1,6 +1,18 @@
 import { NextResponse } from "next/server";
 import Post from "@/utils/post";
-import { savePost } from "@/utils/postService";
+import { getPosts, savePost } from "@/utils/postService";
+
+
+export async function GET() {
+  try {
+    const posts = await getPosts();
+    return NextResponse.json(posts);
+  } catch (error) {
+    console.error("Error en GET:", error);
+    return NextResponse.json({ error: "Error al obtener los posts" }, { status: 500 });
+  }
+}
+
 
 export async function POST(req: Request) {
   try {
