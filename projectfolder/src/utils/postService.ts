@@ -26,27 +26,19 @@ export async function getPosts() {
 }
 
 // Actualizar un post por ID
-export async function updatePost(
-  id: number,
-  data: { title?: string; description?: string; author?: string }
-) {
-  try {
-    const result = await sql`
-      UPDATE AutorTable
-      SET 
-        title = COALESCE(${data.title}, title),
-        description = COALESCE(${data.description}, description),
-        author = COALESCE(${data.author}, author)
-      WHERE id = ${id}
-      RETURNING *;
-    `;
-
-    return result[0] ?? null; // Si no encuentra, retorna null
-  } catch (error) {
-    console.error("Error al actualizar post:", error);
-    throw error;
-  }
+export async function updatePost(id: number, post: Post) {
+  const result = await sql`
+    UPDATE AutorTable
+    SET
+      title = ${post.title.value},
+      description = ${post.description.value},
+      author = ${post.author.value}
+    WHERE id = ${id}
+    RETURNING *;
+  `;
+  return result[0] ?? null;
 }
+
 
 // Eliminar un post por ID
 export async function deletePost(id: number) {
