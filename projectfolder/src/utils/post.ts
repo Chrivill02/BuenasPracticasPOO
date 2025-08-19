@@ -1,30 +1,29 @@
-// utils/post.ts
+
 import sql from "@/lib/db";
+import PostTitle from "./postTitle";
+import PostDescription from "./postDescription";
+import PostAuthor from "./postAuthor";
 
-export interface PostData {
-  title: string;
-  description: string;
-  author: string;
-}
+export default class Post {
+  public title: PostTitle;
+  public description: PostDescription;
+  public author: PostAuthor;
 
-// Función de validación
-export function validatePost(data: PostData) {
-  const { title, description, author } = data;
-  if (title.length < 3) throw new Error("El título debe tener al menos 3 caracteres");
-  if (description.length < 5) throw new Error("La descripción es demasiado corta");
-  if (author.length < 1) throw new Error("Autor inválido");
-}
+  constructor(title: string, description: string, author: string) {
+    this.title = new PostTitle(title);
+    this.description = new PostDescription(description);
+    this.author = new PostAuthor(author);
+  }
 
-// Función para guardar en la DB
-export async function savePost(data: PostData) {
-  const { title, description, author } = data;
-  try {
-    await sql`
-      INSERT INTO AutorTable (title, description, author)
-      VALUES (${title}, ${description}, ${author});
-    `;
-  } catch (error) {
-    console.error("Error real al guardar el post:", error);
-    throw error;
+  async save() {
+    try {
+      await sql`
+        INSERT INTO AutorTable (title, description, author)
+        VALUES (${this.title.value}, ${this.description.value}, ${this.author.value});
+      `;
+    } catch (error) {
+      console.error("Error real al guardar el post:", error);
+      throw error;
+    }
   }
 }
