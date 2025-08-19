@@ -19,7 +19,7 @@ export default class Post {
   async save() {
     try {
         await sql`
-        INSERT INTO autortable (title, description, author)
+        INSERT INTO AutorTable (title, description, author)
         VALUES (${this.title}, ${this.description}, ${this.author});
         `;
     } catch (error) {
