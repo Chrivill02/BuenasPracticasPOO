@@ -1,15 +1,8 @@
-
 export default class PostTitle {
-  public value: string;
+  public readonly value: string;
 
   constructor(value: string) {
-    this.validate(value);
+    if (value.length < 3) throw new Error("El título debe tener al menos 3 caracteres");
     this.value = value;
-  }
-
-  private validate(value: string) {
-    if (value.length < 3) {
-      throw new Error("El título debe tener al menos 3 caracteres");
-    }
   }
 }

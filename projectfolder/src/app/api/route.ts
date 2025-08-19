@@ -1,13 +1,13 @@
-
 import { NextResponse } from "next/server";
 import Post from "@/utils/post";
+import { savePost } from "@/utils/postService";
 
 export async function POST(req: Request) {
   try {
     const { title, description, author } = await req.json();
-
     const post = new Post(title, description, author);
-    await post.save();
+
+    await savePost(post);
 
     return NextResponse.json({ message: "Post guardado con éxito" });
   } catch (error) {
