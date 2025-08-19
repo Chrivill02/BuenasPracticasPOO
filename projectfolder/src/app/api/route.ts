@@ -1,14 +1,14 @@
-
+// app/api/posts/route.ts
 import { NextResponse } from "next/server";
-import Post from "@/utils/post";
+import { validatePost, savePost, PostData } from "@/utils/post";
 
 export async function POST(req: Request) {
   try {
-    const {title, description, author } = await req.json();
+    const data: PostData = await req.json();
 
-    // Crear instancia de Post y guardar
-    const post = new Post( title, description, author);
-    await post.save();
+    // Validar y guardar
+    validatePost(data);
+    await savePost(data);
 
     return NextResponse.json({ message: "Post guardado con éxito" });
   } catch (error) {
