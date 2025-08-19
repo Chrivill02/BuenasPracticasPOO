@@ -1,7 +1,7 @@
 import sql from "@/lib/db";
 import Post from "./post";
 
-// Crear un post en la BD
+
 export async function savePost(post: Post) {
   try {
     await sql`
@@ -14,7 +14,7 @@ export async function savePost(post: Post) {
   }
 }
 
-// Obtener todos los posts
+
 export async function getPosts() {
   try {
     const result = await sql`SELECT * FROM AutorTable`;
@@ -25,7 +25,7 @@ export async function getPosts() {
   }
 }
 
-// Actualizar un post por ID
+
 export async function updatePost(id: number, post: Post) {
   const result = await sql`
     UPDATE AutorTable
@@ -40,7 +40,7 @@ export async function updatePost(id: number, post: Post) {
 }
 
 
-// Eliminar un post por ID
+
 export async function deletePost(id: number) {
   try {
     const result = await sql`
@@ -49,7 +49,7 @@ export async function deletePost(id: number) {
       RETURNING *;
     `;
 
-    return result[0] ?? null; // Si no encuentra, retorna null
+    return result[0] ?? null;
   } catch (error) {
     console.error("Error al eliminar post:", error);
     throw error;
